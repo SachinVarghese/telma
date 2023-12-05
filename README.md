@@ -4,22 +4,22 @@ TELMA is a toolkit evaluator for language model agents or assistants.
 
 ## Introduction
 
-AI assistants or agents can be built by leveraging an agentic language model behaviour. Agentic behaviour is the ability to use external tools in order to solve tasks. For this a language model is prompted with a set of tool definitions and instructions on how to use these tools to complete a certain task.
+AI assistants or agents can be built by leveraging an agentic language model behavior. Agentic behavior is the ability to use external tools to solve tasks. For this, a language model is prompted with a set of tool definitions and instructions on how to use these tools to complete a certain task.
 
-The ability of the language model to utilize these tools efficiently depends not only on the tool definitions but also what tools are used together in a language model prompt. This project aims at evaluating and comparing different toolkits i.e combinations of such tool definitions.
+> ***The ability of the language model to utilize these tools efficiently depends not only on the tool definitions but also on what tools are used together in a language model prompt. This project aims at evaluating and comparing different toolkits i.e. combinations of such tool definitions.***
 
 ## Usage
 
-TELMA provides interfaces to define language model agent tools, assemble them as toolkits and run evaluations on these toolkits based on any defined heuristic. TELMA provides some evaluation heuristics out of the box that can be used to score and compare toolkits or extended to build custom evaluators. So the main usage steps are
+TELMA provides interfaces to define language model agent tools, assemble them as toolkits, and run evaluations on these toolkits based on any defined heuristic. TELMA provides some evaluation heuristics out of the box that can be used to score and compare toolkits or extended to build custom evaluators. So the main usage steps are
 
 - Defines language model agent tools
-- Define toolkits as combination of tools
-- Evaluate Individual toolkit on a heuristic
+- Define toolkits as a combination of tools
+- Evaluate Individual toolkits on a heuristic
 - Compare toolkits to choose the best fit
 
 ## Define Tools
 
-Tools can be defined in TELMA in multiple ways. There are many frameworks/projects that help build language model based agents/ assistants and hosts a set of tools. TELMA aims to integrate with most of such projects to define tools and compare toolkits.
+Tools can be defined in TELMA in multiple ways. Many frameworks/projects help build language model-based agents/ assistants and host a set of tools like Langchain, Huggingface, etc. TELMA aims to integrate with most such projects to define tools and compare toolkits.
 - Native definition (see schema definition for details)
 - From Langchain Hub tools
 - From Open AI functions
@@ -45,7 +45,7 @@ pprint(Tool.model_json_schema())
 
 ### Native Tool Definition
 
-Lets define some tools
+Let's define some tools
 
 
 ```python
@@ -60,7 +60,7 @@ tool0 = Tool(
 
 ### Langchain Tools
 
-Lets define some tools from Langchain Hub
+Now let's define some tools from Langchain Hub
 
 
 ```python
@@ -87,7 +87,7 @@ tool2 = Tool.from_langchain_tool(tool2)
 
 ### Open AI Functions
 
-Now lets define some tools from Open AI function definitions
+Now let's define some tools from Open AI function definitions
 
 
 ```python
@@ -137,7 +137,7 @@ tool4 = Tool.from_openai_function(tool4)
 
 ### Huggingface Hub Tools
 
-Now lets define some tools from Huggingface Hub
+Now let's define some tools from Huggingface Hub
 
 
 ```python
@@ -158,7 +158,7 @@ tool6 = Tool.from_huggingfaceHub(tool6)
 
 ### Llama Index
 
-Now lets define some tools from Llama Index
+Now let's define some tools from the Llama Index modules
 
 
 ```python
@@ -199,7 +199,7 @@ toolkit = ToolKit(tools=tools)
 
 ### Assemble Two Toolkits for Comparison
 
-For our example lets define two different toolkits, `Toolkit 1` with two similar search tools and `Toolkit 2` with three varied tools. 
+For our example let's define two different toolkits, `Toolkit 1` with two similar search tools and `Toolkit 2` with three varied tools. 
 
 
 ```python
@@ -209,13 +209,13 @@ toolkit1 = ToolKit(tools=[tool1, tool2])
 toolkit2 = ToolKit(tools=[tool2, tool3, tool4])
 ```
 
-Logically a language model should have difficulty choosing between tools in Toolkit 1 compared to Toolkit 2 due to the similarity of tools available and hence would be less efficient in choosing the right tool for a job. Now lets evaluate them.
+Logically a language model should have difficulty choosing between tools in Toolkit 1 compared to Toolkit 2 due to the similarity of tools available and hence would be less efficient in choosing the right tool for a job. Now let's evaluate them.
 
 ## Toolkit Evaluation and Comparison
 
 ### Define/Design Evaluation Heuristic
 
-For this example we utilise the out of the box semantic similary evaluator to score a toolkit. The idea here is that the variety in tool definitions makes the job of the language model easier to choose between the tools for different purposes.
+For this example, we utilize the out-of-the-box semantic similarity evaluator to score a toolkit. The idea here is that the variety in tool definitions makes the job of the language model easier to choose between the tools for different purposes.
 
 The `Evaluator` class in TELMA can be extended to create custom evaluation heuristics.
 
@@ -228,7 +228,7 @@ evaluator = SemanticDissimilarityEvaluator()
 
 ### Evaluate and compare toolkits
 
-Lets compute evalaution score based on our defined heuristic.
+Let's compute the evaluation score based on our defined heuristic.
 
 
 ```python
