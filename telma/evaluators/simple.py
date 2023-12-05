@@ -4,7 +4,7 @@ from ..tool import Tool
 from sentence_transformers import SentenceTransformer, util
 
 
-class SimpleEvaluator(Evaluator):
+class SemanticDissimilarityEvaluator(Evaluator):
     def __init__(self, model_name="all-MiniLM-L6-v2"):
         super()
         self.model = SentenceTransformer(model_name)

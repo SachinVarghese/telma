@@ -1,10 +1,50 @@
 # TELMA - Toolkit Evaluator for Language Model Agents
 
-A toolkit evaluator for language model agents or assistants
+TELMA is a toolkit evaluator for language model agents or assistants. 
 
-## Define Tools
+## Intoduction
+
+AI assistants or agents can be built by leveraging an agentic language model behaviour. Agentic behaviour is the ability to use external tools in order to solve tasks. For this a language model is prompted with a set of tool definitions and instructions on how to use these tools to complete a certain task.
+
+The ability of the language model to utilize these tools efficiently depends not only on the tool definitions but also what tools are used together in a language model prompt. This project aims at evaluating and comparing different toolkits i.e combinations of such tool definitions.
+
+## Usage
+
+TELMA provides interfaces to define language model agent tools, assemble them as toolkits and score different based on any defined heuristic. TELMA provides some evaluation heuristics out of the box that can be used to compare toolkits or extended to build custom evaluators. Main usage steps are
+
+- Defines agent tools
+- Define toolkits as combination of tools
+- Evaluate Individual toolkit on a heuristic
+- Compare toolkits to choose the best fit
+
+### Define Tools
+
+Tools can be defined in TELMA in multiple ways. There are many frameworks/projects that help build language model based agents/ assistants and hosts a set of tools. TELMA aims to integrate with most of such projects to define tools and compare toolkits.
+- Native definition (see schema definition for details)
+- From Langchain Hub tools
+- From Open AI functions
+- From Huggingface Hub Tools
+
+
+```python
+from telma import Tool
+from pprint import pprint
+
+pprint(Tool.model_json_schema())
+```
+
+    {'properties': {'description': {'title': 'Description', 'type': 'string'},
+                    'name': {'title': 'Name', 'type': 'string'},
+                    'signature_schema': {'title': 'Signature Schema',
+                                         'type': 'object'}},
+     'required': ['name', 'description', 'signature_schema'],
+     'title': 'Tool',
+     'type': 'object'}
+
 
 ### Langchain Tools
+
+Lets define some tools from Langchain Hub
 
 
 ```python
@@ -30,6 +70,8 @@ tool2 = Tool.from_langchain_tool(tool2)
 ```
 
 ### Open AI Functions
+
+Now lets define some tools from Open AI function definitions
 
 
 ```python
@@ -78,7 +120,9 @@ tool3 = Tool.from_openai_function(tool3)
 tool4 = Tool.from_openai_function(tool4)
 ```
 
-### Huggingface Tools
+### Huggingface Hub Tools
+
+Now lets define some tools from Huggingface Hub
 
 
 ```python
@@ -97,7 +141,9 @@ tool5 = Tool.from_huggingfaceHub(tool5)
 tool6 = Tool.from_huggingfaceHub(tool6)
 ```
 
-## Assemble Toolkit
+### Example Toolkit Assembly
+
+Once you have defined a set of tools, a toolkit can be created as follows
 
 
 ```python
@@ -108,44 +154,42 @@ toolkit = ToolKit(tools=tools)
 # toolkit.get_tools()
 ```
 
-## Toolkit Comparison
+## Toolkit Evaluation and Comparison
 
-### Design Evaluator
+### Assemble Two Toolkits
 
-
-```python
-from telma import SimpleEvaluator
-
-evaluator = SimpleEvaluator()
-```
-
-### Assemble Toolkits
+For our example lets define two different toolkits, `Toolkit 1` with two similar search tools and `Toolkit 2` with three varied tools. 
 
 
 ```python
 from telma import ToolKit
 
-tools = [tool1, tool2]
-toolkit1 = ToolKit(tools=tools)
+toolkit1 = ToolKit(tools=[tool1, tool2])
+toolkit2 = ToolKit(tools=[tool2, tool3, tool4])
 ```
+
+Logically a language model should have difficulty choosing between tools in Toolkit 1 compared to Toolkit 2 due to the similarity of tools available and hence would be less efficient in choosing the right tool for a job. Now lets evaluate them.
+
+### Define/Design Evaluation Heuristic
+
+For this example we utilise the out of the box semantic similary evaluator to score a toolkit. The idea here is that the variety in tool definitions makes the job of the language model easier to choose between the tools for different purposes.
+
+The `Evaluator` class in TELMA can be extended to create custom evaluation heuristics.
 
 
 ```python
-from telma import ToolKit
+from telma import SemanticDissimilarityEvaluator
 
-tools = [tool2, tool3, tool4]
-toolkit2 = ToolKit(tools=tools)
+evaluator = SemanticDissimilarityEvaluator()
 ```
 
 ### Evaluate and Compare
 
+Lets compute evalaution score based on our defined heuristic.
+
 
 ```python
 score1 = toolkit1.evaluate(evaluator=evaluator)
-```
-
-
-```python
 score2 = toolkit2.evaluate(evaluator=evaluator)
 ```
 

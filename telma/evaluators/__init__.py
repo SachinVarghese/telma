@@ -1,4 +1,4 @@
-from .simple import SimpleEvaluator
+from .simple import SemanticDissimilarityEvaluator
 from .evaluator import Evaluator
 
-__all__ = ["Evaluator", "SimpleEvaluator"]
+__all__ = ["Evaluator", "SemanticDissimilarityEvaluator"]
