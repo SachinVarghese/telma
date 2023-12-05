@@ -228,7 +228,7 @@ evaluator = SemanticDissimilarityEvaluator()
 
 ### Evaluate and compare toolkits
 
-Let's compute the evaluation score based on our defined heuristic.
+Let's compute the evalaution score based on our defined heuristic.
 
 
 ```python
