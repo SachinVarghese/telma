@@ -2,6 +2,7 @@ from .evaluator import Evaluator
 from typing import List
 from ..tool import Tool
 from sentence_transformers import SentenceTransformer, util
+import statistics
 
 
 class SemanticDissimilarityEvaluator(Evaluator):
@@ -9,9 +10,16 @@ class SemanticDissimilarityEvaluator(Evaluator):
         super()
         self.model = SentenceTransformer(model_name)
 
-    def evaluate(self, tools: List[Tool]) -> float:
-        embeddings = self.model.encode(
-            [t.model_dump_json() for t in tools], convert_to_tensor=True
-        )
+    def getCosineSimilarity(self, sentences: List[str]) -> float:
+        embeddings = self.model.encode(sentences, convert_to_tensor=True)
         cosine_scores = util.cos_sim(embeddings, embeddings)
-        return 1 - cosine_scores.mean().item()
+        return cosine_scores.mean().item()
+
+    def evaluate(self, tools: List[Tool]) -> float:
+        name_cos_score = self.getCosineSimilarity([t.name for t in tools])
+        desc_cos_score = self.getCosineSimilarity([t.description for t in tools])
+        sign_cos_score = self.getCosineSimilarity(
+            [str(t.signature_schema) for t in tools]
+        )
+
+        return 1 - statistics.mean([name_cos_score, desc_cos_score, sign_cos_score])

@@ -4,6 +4,7 @@ from .tool import Tool
 from langchain.tools import BaseTool as Langchain_Tool
 from openai.types import FunctionDefinition as OpenAI_Tool
 from transformers import Tool as HuggingfaceHub_Tool
+from llama_index.tools import BaseTool as LlamaIndex_Tool
 
 
 class ToolKit:
@@ -39,4 +40,16 @@ class ToolKit:
     @classmethod
     def from_huggingfaceHub(self, tools: List[HuggingfaceHub_Tool]):
         toolset = [Tool(name=t.name, description=t.description) for t in tools]
+        return self(tools=toolset)
+
+    @classmethod
+    def from_llamaIndex(self, tools: List[LlamaIndex_Tool]):
+        toolset = [
+            Tool(
+                name=t.metadata.name,
+                description=t.metadata.description,
+                signature_schema=t.metadata.fn_schema.schema(),
+            )
+            for t in tools
+        ]
         return self(tools=toolset)

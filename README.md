@@ -2,7 +2,7 @@
 
 TELMA is a toolkit evaluator for language model agents or assistants. 
 
-## Intoduction
+## Introduction
 
 AI assistants or agents can be built by leveraging an agentic language model behaviour. Agentic behaviour is the ability to use external tools in order to solve tasks. For this a language model is prompted with a set of tool definitions and instructions on how to use these tools to complete a certain task.
 
@@ -10,20 +10,21 @@ The ability of the language model to utilize these tools efficiently depends not
 
 ## Usage
 
-TELMA provides interfaces to define language model agent tools, assemble them as toolkits and score different based on any defined heuristic. TELMA provides some evaluation heuristics out of the box that can be used to compare toolkits or extended to build custom evaluators. Main usage steps are
+TELMA provides interfaces to define language model agent tools, assemble them as toolkits and run evaluations on these toolkits based on any defined heuristic. TELMA provides some evaluation heuristics out of the box that can be used to score and compare toolkits or extended to build custom evaluators. So the main usage steps are
 
-- Defines agent tools
+- Defines language model agent tools
 - Define toolkits as combination of tools
 - Evaluate Individual toolkit on a heuristic
 - Compare toolkits to choose the best fit
 
-### Define Tools
+## Define Tools
 
 Tools can be defined in TELMA in multiple ways. There are many frameworks/projects that help build language model based agents/ assistants and hosts a set of tools. TELMA aims to integrate with most of such projects to define tools and compare toolkits.
 - Native definition (see schema definition for details)
 - From Langchain Hub tools
 - From Open AI functions
 - From Huggingface Hub Tools
+- From LlamaIndex Module Tools
 
 
 ```python
@@ -41,6 +42,21 @@ pprint(Tool.model_json_schema())
      'title': 'Tool',
      'type': 'object'}
 
+
+### Native Tool Definition
+
+Lets define some tools
+
+
+```python
+from telma import Tool
+
+tool0 = Tool(
+    name="example tool",
+    description="example tool description",
+    signature_schema={"type": "string"},
+)
+```
 
 ### Langchain Tools
 
@@ -76,10 +92,7 @@ Now lets define some tools from Open AI function definitions
 
 ```python
 from openai.types import FunctionDefinition
-```
 
-
-```python
 tool3_params = {
     "type": "object",
     "properties": {
@@ -95,6 +108,8 @@ tool3 = FunctionDefinition(
 
 
 ```python
+from openai.types import FunctionDefinition
+
 tool4_params = {
     "type": "object",
     "properties": {
@@ -141,22 +156,48 @@ tool5 = Tool.from_huggingfaceHub(tool5)
 tool6 = Tool.from_huggingfaceHub(tool6)
 ```
 
-### Example Toolkit Assembly
+### Llama Index
 
-Once you have defined a set of tools, a toolkit can be created as follows
+Now lets define some tools from Llama Index
+
+
+```python
+from llama_index.tools import QueryEngineTool, ToolMetadata
+
+tool7 = QueryEngineTool(
+    query_engine=None,
+    metadata=ToolMetadata(
+        name="lyft_10k",
+        description=(
+            "Provides information about Lyft financials for year 2021. "
+            "Use a detailed plain text question as input to the tool."
+        ),
+    ),
+)
+```
+
+
+```python
+from telma import Tool
+
+tool7 = Tool.from_llamaIndex(tool7)
+```
+
+## Toolkit Assembly
+
+Once you have defined a set of tools, a toolkit can be created including as many tools as follows 
 
 
 ```python
 from telma import ToolKit
 
-tools = [tool1, tool2, tool3, tool4, tool5, tool6]
+tools = [tool0, tool1, tool2, tool3, tool4, tool5, tool6, tool7]
 toolkit = ToolKit(tools=tools)
+
 # toolkit.get_tools()
 ```
 
-## Toolkit Evaluation and Comparison
-
-### Assemble Two Toolkits
+### Assemble Two Toolkits for Comparison
 
 For our example lets define two different toolkits, `Toolkit 1` with two similar search tools and `Toolkit 2` with three varied tools. 
 
@@ -169,6 +210,8 @@ toolkit2 = ToolKit(tools=[tool2, tool3, tool4])
 ```
 
 Logically a language model should have difficulty choosing between tools in Toolkit 1 compared to Toolkit 2 due to the similarity of tools available and hence would be less efficient in choosing the right tool for a job. Now lets evaluate them.
+
+## Toolkit Evaluation and Comparison
 
 ### Define/Design Evaluation Heuristic
 
@@ -183,7 +226,7 @@ from telma import SemanticDissimilarityEvaluator
 evaluator = SemanticDissimilarityEvaluator()
 ```
 
-### Evaluate and Compare
+### Evaluate and compare toolkits
 
 Lets compute evalaution score based on our defined heuristic.
 
@@ -206,5 +249,9 @@ else:
 
 ## References
 
+- [Langchain Hub Tools](https://python.langchain.com/docs/modules/agents/tools/custom_tools)
+- [Open AI functions](https://platform.openai.com/docs/guides/function-calling)
+- [Huggingface Hub Tools](https://huggingface.co/docs/transformers/custom_tools)
+- [LlamaIndex Module Tools](https://docs.llamaindex.ai/en/stable/optimizing/agentic_strategies/agentic_strategies.html)
 - Tool Schema Definition - [JSON Schema](https://json-schema.org/understanding-json-schema/)
 - Tool Comparison - [Semantic Textual Similarity](https://www.sbert.net/docs/usage/semantic_textual_similarity.html)
