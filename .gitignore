@@ -1,0 +1,9 @@
+#virtual envs
+.venv
+
+# test
+.pytest_cache
+
+#build
+dist
+__pycache__

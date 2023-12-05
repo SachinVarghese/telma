@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "telma"
+version = "0.1.0-alpha"
+description = "Toolkit evaluator for language model agents"
+authors = ["Sachin Varghese <sachin.mathew31@gmail.com>"]
+readme = "README.md"
+packages = [{include = "telma"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.5.2"
+sentence-transformers = "^2.2.2"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+black = {extras = ["jupyter"], version = "^23.11.0"}
+ipykernel = "^6.27.1"
+
+[tool.poetry.group.integrations]
+optional = true
+
+[tool.poetry.group.integrations.dependencies]
+langchain = "^0.0.345"
+openai = "^1.3.7"
+transformers = "^4.35.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
