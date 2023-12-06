@@ -1,6 +1,8 @@
-# Toolkit Evaluator for Language Model Agents
+# TELMA
 
-**TELMA** is a toolkit evaluator for language model agents. Equip your language model agents or AI assistants with the best set of tool definitions.
+**TELMA** is a toolkit evaluator for language model agents.
+
+> Equip your language model agents or AI assistants with the best set of tool definitions.
 
 ### Abstract
 
@@ -8,7 +10,7 @@ The ability of the agentic language model to efficiently utilize a set of tools 
 
 TELMA is a toolkit evaluator for language model agents or AI assistants. TELMA aims to assist with the evaluation and comparison of different combinations of such tool definitions to improve the agentic behaviour.
 
-Source code available: https://github.com/SachinVarghese/telma
+Source code available on GitHub: [https://github.com/SachinVarghese/telma](https://github.com/SachinVarghese/telma)
 
 ### Contents
 
