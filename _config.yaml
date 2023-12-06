@@ -1,3 +1,3 @@
-remote_theme: tuur29/pages-themes-cayman
-title: TELMA
+theme: jekyll-theme-cayman
+title: Toolkit Evaluator for Language Model Agents
 description: Toolkit Evaluator for Language Model Agents
