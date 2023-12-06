@@ -1,8 +1,8 @@
-# TELMA - Toolkit Evaluator for Language Model Agents
+# Toolkit Evaluator for Language Model Agents
 
-Equip your language model agents or AI assistants with the best set of tool definitions.
+**TELMA** is a toolkit evaluator for language model agents. Equip your language model agents or AI assistants with the best set of tool definitions.
 
-## Abstract
+### Abstract
 
 The ability of the agentic language model to efficiently utilize a set of tools depends not only on the individual tool definitions but also on what tools are grouped in a context. The agentic behaviour using language models can be hugely enhanced by choosing the right set of tool definitions in a context.
 
