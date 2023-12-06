@@ -1,13 +1,29 @@
 # TELMA - Toolkit Evaluator for Language Model Agents
 
-TELMA is a toolkit evaluator for language model agents or assistants. Equip your language model agents or AI assistants with the best toolkits possible.
+Equip your language model agents or AI assistants with the best set of tool definitions.
 
-The ability of the agentic language model to efficiently utilize a set of tools depends not only on the tool definitions but also on what tools are grouped together in a context. The agentic behaviour using langauage models can be hugely enhanced by choosing the right set of tool definitions in a context. TELMA aims at assisting with the evaluation and comparison of different toolkits i.e. combinations of such tool definitions.
+## Abstract
+
+The ability of the agentic language model to efficiently utilize a set of tools depends not only on the individual tool definitions but also on what tools are grouped in a context. The agentic behaviour using language models can be hugely enhanced by choosing the right set of tool definitions in a context.
+
+TELMA is a toolkit evaluator for language model agents or AI assistants. TELMA aims to assist with the evaluation and comparison of different combinations of such tool definitions to improve the agentic behaviour.
+
+Source code available: https://github.com/SachinVarghese/telma
+
+### Contents
+
+* [Background](#background)
+* [Usage](#usage)
+* [Tool definitions](#tool-definitions)
+* [Toolkit assembly](#toolkit-assembly)
+* [Toolkit evaluation and comparison](#toolkit-evaluation-and-comparison)
+    * [Define evaluation heuristic](#define-evaluation-heuristic)    
+    * [Evaluate and compare toolkits](#evaluate-and-compare-toolkits)  
+* [References](#references)
 
 ## Background
 
-AI assistants or agents can be built by leveraging an agentic language model behavior. Agentic behavior is the ability of a language model to plan next steps as actions and utilize external tools to solve tasks. For this, a language model is prompted with a set of tool definitions and instructions on how to use these tools inorder to complete different types of tasks. A combination of such tools in a language model context can be referred to as an agent toolkit. TELMA aims at assisting with the evaluation of such tool definitions
-in a toolkit to enhance the agentic behaviour.
+AI assistants or agents can be built by leveraging an agentic language model behavior. Agentic behavior is the ability of a language model to plan the next steps as actions and utilize external tools to solve tasks. For this, a language model is prompted with a set of tool definitions and instructions on how to use these tools in order to complete different types of tasks. A combination of such tools in a language model context can be referred to as an agent toolkit.
 
 ## Usage
 
@@ -15,7 +31,7 @@ TELMA provides interfaces to define language model agent tools, assemble them as
 
 - Defines tools for a language model agent
 - Define toolkits as a group of such tools
-- Evaluate toolkits on a user defined heuristic
+- Evaluate toolkits on any user-defined heuristic
 - Compare toolkits to choose the best fit for an agent
 
 
@@ -45,7 +61,7 @@ toolkit.evaluate(evaluator=SemanticDissimilarityEvaluator())
 
 
 
-## Tool Definitions
+## Tool definitions
 
 Many frameworks/projects help build language model-based agents or AI assistants like Langchain, Huggingface, etc. TELMA aims to integrate with most such projects to define tools and compare toolkits. Agentic Tools can be defined in TELMA in multiple ways as follows,
 - Native definition (see schema definition for details)and host a set of tools
@@ -54,13 +70,13 @@ Many frameworks/projects help build language model-based agents or AI assistants
 - From Huggingface Hub Tools
 - From LlamaIndex Module Tools
 
-### Native Tool Definition
+### Native tool definition
 
 
 ```python
 tool0 = Tool(
     name="Google search",
-    description="This tool helps to retrive information from google search results",
+    description="This tool helps to retrieve information from Google search results",
     signature_schema={"type": "string"},
 )
 ```
@@ -161,9 +177,9 @@ tool7 = Tool.from_llamaIndex(
     QueryEngineTool(
         query_engine=None,
         metadata=ToolMetadata(
-            name="lyft_10k",
+            name="lyft_2021",
             description=(
-                "Provides information about Lyft financials for year 2021. "
+                "Provides information about Lyft financials for year 2021."
                 "Use a detailed plain text question as input to the tool."
             ),
         ),
@@ -171,9 +187,11 @@ tool7 = Tool.from_llamaIndex(
 )
 ```
 
-## Toolkit Assembly
 
-Most language model agents work with one or more tools in a context. Once you have defined a set of tools, a toolkit can be assembled follows,
+
+## Toolkit assembly
+
+Most language model agents work with one or more tools in a context. Once you have defined a set of tools, a toolkit can be assembled follows:
 
 
 ```python
@@ -195,15 +213,15 @@ toolkit1 = ToolKit(tools=[tool0, tool1, tool2])
 toolkit2 = ToolKit(tools=[tool3, tool4, tool5])
 ```
 
-## Toolkit Evaluation and Comparison
+## Toolkit evaluation and comparison
 
 In theory, an agentic behaviour powered by a language model should have more difficulty differentiating and choosing between the tools in `Toolkit 1` compared to `Toolkit 2` due to the similarity of tool definitions. So the agent would be less efficient in selecting the right tool when using `Toolkit 1` especially if the language model is less powerful. 
 
 For such reason, it is extremely important to evaluate toolkits to understand the efficiency of agentic behaviour using language models.
 
-### Define/Design Evaluation Heuristic
+### Define Evaluation Heuristic
 
-For the toolkit evaluation, we utilize the out-of-the-box semantic dissimilarity evaluator. The heuristic with this evaluation is that the variance in tool naming and descriptions makes it easier for a the language model to choose between the tools for different requirements. This criteria be extremely useful with smaller langauge models(less parameters) that are less powerful. 
+For the toolkit evaluation, we utilize the out-of-the-box semantic dissimilarity evaluator. The heuristic with this evaluation is that the variance in tool naming and descriptions makes it easier for a language model to choose between the tools for different requirements. Such a  criteria be extremely useful with smaller language models(fewer parameters) that are less powerful. 
 
 
 ```python
