@@ -49,9 +49,9 @@ toolkit = ToolKit(tools=[tool])
 
 
 ```python
-from telma.evaluators import SemanticDissimilarityEvaluator
+from telma.evaluators import SemanticDissimilarityEvaluator as evaluator
 
-toolkit.evaluate(evaluator=SemanticDissimilarityEvaluator())
+evaluator().evaluate(toolkit.get_tools())
 ```
 
 
@@ -238,8 +238,8 @@ Now let's compute the evaluation score based on our defined heuristic.
 
 
 ```python
-score1 = toolkit1.evaluate(evaluator=evaluator)
-score2 = toolkit2.evaluate(evaluator=evaluator)
+score1 = evaluator.evaluate(toolkit1.get_tools())
+score2 = evaluator.evaluate(toolkit2.get_tools())
 ```
 
 

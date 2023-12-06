@@ -28,11 +28,11 @@ class ToolKit:
     def __init__(self, tools: List[Tool]):
         self.tool_list = tools
 
-    def get_tools(self):
+    def get_tools(self) -> List[Tool]:
         return self.tool_list
 
     def evaluate(self, evaluator: Evaluator) -> float:
-        return evaluator.evaluate(self.tool_list)
+        return evaluator.evaluate(self.get_tools())
 
     @classmethod
     def from_langchain_tools(self, tools: List[Langchain_Tool]):
