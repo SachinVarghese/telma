@@ -1,6 +1,6 @@
 ## TELMA - Toolkit Evaluator for Language Model Agents
 
-> Equip your language model agents or AI assistants with the best set of tool definitions.
+> Equip language model agents with the right set of tool definitions
 
 ### Abstract
 
