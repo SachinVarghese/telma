@@ -49,7 +49,7 @@ toolkit = ToolKit(tools=[tool])
 
 
 ```python
-from telma.evaluators import SemanticDissimilarityEvaluator as evaluator
+from telma.evaluators import SemanticSimilarityEvaluator as evaluator
 
 evaluator().evaluate(toolkit.get_tools())
 ```
@@ -187,8 +187,6 @@ tool7 = Tool.from_llamaIndex(
 )
 ```
 
-
-
 ## Toolkit assembly
 
 Most language model agents work with one or more tools in a context. Once you have defined a set of tools, a toolkit can be assembled follows:
@@ -221,13 +219,13 @@ For such reason, it is extremely important to evaluate toolkits to understand th
 
 ### Define Evaluation Heuristic
 
-For the toolkit evaluation, we utilize the out-of-the-box semantic dissimilarity evaluator. The heuristic with this evaluation is that the variance in tool naming and descriptions makes it easier for a language model to choose between the tools for different requirements. Such a  criteria be extremely useful with smaller language models(fewer parameters) that are less powerful. 
+For the toolkit evaluation, we utilize the out-of-the-box semantic similarity evaluator. The heuristic with this evaluation is that the variance in tool name, description, and schema makes it easier for a language model to choose between the tools for different requirements. Such a criteria can be extremely useful with smaller language models(fewer parameters) that are less powerful. 
 
 
 ```python
-from telma import SemanticDissimilarityEvaluator
+from telma import SemanticSimilarityEvaluator
 
-evaluator = SemanticDissimilarityEvaluator()
+evaluator = SemanticSimilarityEvaluator()
 ```
 
 > Note: The `Evaluator` class in TELMA can also be extended to create custom evaluation heuristics. TELMA users are encouraged to create custom toolkit evaluators to meet their agent requirements.

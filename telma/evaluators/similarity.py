@@ -5,9 +5,8 @@ from sentence_transformers import SentenceTransformer, util
 import statistics
 
 
-class SemanticDissimilarityEvaluator(Evaluator):
+class SemanticSimilarityEvaluator(Evaluator):
     def __init__(self, model_name="all-MiniLM-L6-v2"):
-        super()
         self.model = SentenceTransformer(model_name)
 
     def getCosineSimilarity(self, sentences: List[str]) -> float:
@@ -16,10 +15,14 @@ class SemanticDissimilarityEvaluator(Evaluator):
         return cosine_scores.mean().item()
 
     def evaluate(self, tools: List[Tool]) -> float:
-        name_cos_score = self.getCosineSimilarity([t.name for t in tools])
-        desc_cos_score = self.getCosineSimilarity([t.description for t in tools])
-        sign_cos_score = self.getCosineSimilarity(
+        name_cos_sim_score = self.getCosineSimilarity([t.name for t in tools])
+        desc_cos_sim_score = self.getCosineSimilarity([t.description for t in tools])
+        sign_cos_sim_score = self.getCosineSimilarity(
             [str(t.signature_schema) for t in tools]
         )
 
-        return 1 - statistics.mean([name_cos_score, desc_cos_score, sign_cos_score])
+        average_cos_sim_score = statistics.mean(
+            [name_cos_sim_score, desc_cos_sim_score, sign_cos_sim_score]
+        )
+
+        return 1 - average_cos_sim_score
